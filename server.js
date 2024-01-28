@@ -1,6 +1,7 @@
 //웹 서비스 개발을 위한 백엔드 서버개발 공부
 
 const express = require("express");
+const { ObjectId } = require('mongodb')
 const { SocketAddress } = require("net");
 const app = express();
 app.use(express.static(__dirname + "/public"));
@@ -81,6 +82,17 @@ app.post('/newpost', async(요청,응답)=> {
 
 })
 
+app.get('/detail/:id', async (요청, 응답) => {
+  try{
+    let result = await db.collection('post').findOne({ _id : new ObjectId(요청.params.id) })
+    응답.render('detail.ejs', { result : result })
+
+  }catch(e){
+    응답.send('ERROR')
+
+  }
+
+})
 
 
 
