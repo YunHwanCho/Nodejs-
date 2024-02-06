@@ -20,30 +20,38 @@
           <span class="delete" data-id="<%= 글목록[i]._id %>">🗑️</span>
         </h4>
         <p><%=글목록[i].content%></p>
-        <button
-          type="button"
-          class="btn btn-warning"
-          action="/delete"
-          method="POST"
-        >
-          삭제
-        </button>
-        <button type="button" class="btn btn-info delete">
-          <a href="/edit/<%=글목록[i]._id%>">수정</a>
-        </button>
+        
       </div>
 
       <%}%>
     </div>
 
     <script>
-        document.querySelectorAll('.delete').forEach(function(deleteButton){
-            deleteButton.addEventListener('click',function(e) {
-          fetch('/delete?docid=' + e.target.dataset.id, {
-          method : 'DELETE',
-        });
+     for (let i = 0; i < '<%= 글목록.length %>'; i++) {
+    document.querySelectorAll('.delete')[i].addEventListener('click', function(e) {
+        fetch('/delete?docid=' + e.target.dataset.id, {
+            method: 'DELETE'
+        })
+        .then((r) => r.text())
+        .then((r) => {
+            // DOM 조작 시 오류가 발생할 수 있으므로 try-catch로 감싼다
+            try {
+                e.target.parentElement.parentElement.style.display = 'none';
+            } catch (domError) {
+                console.error('DOM 조작 중 오류 발생:', domError);
+            }
+        })
+        .catch((fetchError) => {
+            // fetch 호출 실패 또는 서버 오류 처리
+            console.error('삭제 요청 중 오류 발생:', fetchError);
+            alert('삭제 처리 중 문제가 발생했습니다.');
         });
     });
+}
+
+   
+
+       
 
 
     </script>

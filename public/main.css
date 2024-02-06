@@ -73,3 +73,9 @@ a {
     padding: 15px;
     margin-top: 10px;
   }
+
+  .delete{
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+  }
